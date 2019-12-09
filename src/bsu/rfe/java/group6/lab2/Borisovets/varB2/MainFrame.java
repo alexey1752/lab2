@@ -26,6 +26,7 @@ public class MainFrame extends JFrame{
     private JTextField textFieldZ;
     private JTextField textFieldRes;
     private ButtonGroup funcRadioButtons = new ButtonGroup();
+    private ButtonGroup memRadioButtons = new ButtonGroup();
 
     private double func1(double x, double y, double z) throws ArithmeticException
     {
@@ -67,6 +68,20 @@ public class MainFrame extends JFrame{
         });
         funcRadioButtons.add(button);
         hboxFormulaType.add(button);
+    }
+
+    private void addMemRadioButton(String buttonName, final int memId){
+        JRadioButton button = new JRadioButton(buttonName);
+        button.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                MainFrame.this.memId = memId;
+                if(memId == 1) textFieldM1.setText(String.valueOf(mem1));
+                else if(memId == 2) textFieldM1.setText(String.valueOf(mem2));
+                else textFieldM1.setText(String.valueOf(mem3));
+            }
+        });
+        memRadioButtons.add(button);
+        hboxMemType.add(button);
     }
 
     public MainFrame(){
@@ -153,6 +168,10 @@ public class MainFrame extends JFrame{
         hboxButtons.add(buttonReset);
         hboxButtons.add(Box.createHorizontalGlue());
 
+        addMemRadioButton("Переменная1", 1);
+        addMemRadioButton("Переменная2", 2);
+        addMemRadioButton("Переменная3", 3);
+        memRadioButtons.setSelected(memRadioButtons.getElements().nextElement().getModel(), true);
 
         JButton buttonMemPlus = new JButton("M+");
         buttonMemPlus.addActionListener(new ActionListener() {
