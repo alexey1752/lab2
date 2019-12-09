@@ -16,7 +16,10 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame{
-    private static final Dimension size = new Dimension(520,400);
+    private static final Dimension size = new Dimension(750,600);
+    private double mem1 ;
+    private double mem2;
+    private double mem3;
     JTextField textFieldM1;
     private JTextField textFieldX;
     private JTextField textFieldY;
@@ -53,6 +56,7 @@ public class MainFrame extends JFrame{
     private Box hboxFormulaType = Box.createHorizontalBox();
     private Box hboxMemType = Box.createHorizontalBox();
     private int funcId = 1;
+    private int memId = 1;
 
     private void addFuncRadioButton(String buttonName, final int funcId){
         JRadioButton button = new JRadioButton(buttonName);
@@ -150,10 +154,62 @@ public class MainFrame extends JFrame{
         hboxButtons.add(Box.createHorizontalGlue());
 
 
+        JButton buttonMemPlus = new JButton("M+");
+        buttonMemPlus.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (memId == 1) {
+                        mem1 += Double.parseDouble(textFieldRes.getText());
+                        textFieldM1.setText(String.valueOf(mem1));
+                    } else if (memId == 2) {
+                        mem2 += Double.parseDouble(textFieldRes.getText());
+                        textFieldM1.setText(String.valueOf(mem2));
+                    } else if (memId == 3) {
+                        mem3 += Double.parseDouble(textFieldRes.getText());
+                        textFieldM1.setText(String.valueOf(mem3));
+                    }
+                }
+                catch (NumberFormatException err){
+                    JOptionPane.showMessageDialog(MainFrame.this,"Ошибка в формате записи числа с плавающей точкой",
+                            "Ошибочный формат числа", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+        });
+
+        JButton buttonMemC = new JButton("MC");
+        buttonMemC.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (memId == 1){
+                    mem1 = 0.0;
+                    textFieldM1.setText("0");
+                }
+                else if (memId == 2){
+                    mem2 = 0.0;
+                    textFieldM1.setText("0");
+                }
+                else if (memId == 3){
+                    mem3 = 0.0;
+                    textFieldM1.setText("0");
+                }
+            }
+
+        });
+
+        textFieldM1 = new JTextField("0", 15);
+        textFieldM1.setMaximumSize(textFieldM1.getPreferredSize());
+        textFieldM1.setEditable(false);
+
+        JLabel labelMem1= new JLabel("Mem");
+
         Box hboxMem = Box.createHorizontalBox();
+        hboxMem.add(labelMem1);
+        hboxMem.add(textFieldM1);
 
         Box hboxMemButtons = Box.createHorizontalBox();
+        hboxMemButtons.add(buttonMemPlus);
         hboxMemButtons.add(Box.createHorizontalStrut(5));
+        hboxMemButtons.add(buttonMemC);
 
 
         Box contentBox = Box.createVerticalBox();
@@ -181,6 +237,7 @@ public class MainFrame extends JFrame{
     {
     	
         MainFrame frame = new MainFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         
 
